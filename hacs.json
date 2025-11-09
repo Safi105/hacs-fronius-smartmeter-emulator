@@ -1,0 +1,8 @@
+{
+  "name": "Fronius Smart Meter Emulator",
+  "content_in_root": false,
+  "domains": ["fronius_smartmeter_emulator"],
+  "iot_class": "local_push",
+  "render_readme": true,
+  "country": "all"
+}
