@@ -10,30 +10,24 @@ class FroniusSmartMeterConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
 
     async def async_step_user(self, user_input=None):
-        """Handle the initial step."""
         if user_input is not None:
             return self.async_create_entry(title="Fronius Smart Meter Emulator", data=user_input)
 
-        # Formular
         data_schema = vol.Schema({
             vol.Required(
                 "power_entity",
                 description={"suggested_value": None}
-            ): selector({"entity": {"domain": "sensor"}}),  # Required: aktuelle Leistung
+            ): selector({"entity": {"domain": "sensor"}}),  # Required
 
             vol.Optional(
                 "import_entity",
                 description={"suggested_value": None}
-            ): selector({"entity": {"domain": "sensor"}}),  # Optional: importierte Energie
+            ): selector({"entity": {"domain": "sensor"}}),
 
             vol.Optional(
                 "export_entity",
                 description={"suggested_value": None}
-            ): selector({"entity": {"domain": "sensor"}}),  # Optional: exportierte Energie
-
-            vol.Optional(
-                "modbus_unit_id", default=240
-            ): vol.All(vol.Coerce(int), vol.Range(min=1, max=247)),
+            ): selector({"entity": {"domain": "sensor"}}),
 
             vol.Optional(
                 "modbus_port", default=1502
