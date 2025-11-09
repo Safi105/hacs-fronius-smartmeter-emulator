@@ -4,6 +4,7 @@ from pymodbus.server.async_io import StartTcpServer
 from pymodbus.datastore import ModbusSequentialDataBlock
 from pymodbus.datastore.simulator import setup_simulator
 from homeassistant.core import HomeAssistant
+from .const import REGISTER_AC_POWER, REGISTER_AC_IMPORT, REGISTER_AC_EXPORT
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -12,28 +13,29 @@ async def start_modbus_server(hass: HomeAssistant, power_entity: str,
                               unit_id: int = 240, port: int = 1502):
     """Start a Modbus TCP server (Fronius Smart Meter Emulator)"""
 
-    datablock = ModbusSequentialDataBlock(0, [0]*100)
+    datablock = ModbusSequentialDataBlock(0, [0]*200)  # 200 Register als Puffer
     store = setup_simulator({unit_id: datablock})
 
     async def update_registers():
         while True:
             try:
                 # Aktuelle Leistung
-                power_state = hass.states.get(power_entity)
-                if power_state:
-                    datablock.setValues(3, 0, [int(float(power_state.state))])
+                state = hass.states.get(power_entity)
+                if state:
+                    datablock.setValues(3, REGISTER_AC_POWER, [int(float(state.state))])
 
                 # Importierte Energie
                 if import_entity:
-                    import_state = hass.states.get(import_entity)
-                    if import_state:
-                        datablock.setValues(3, 1, [int(float(import_state.state))])
+                    state = hass.states.get(import_entity)
+                    if state:
+                        datablock.setValues(3, REGISTER_AC_IMPORT, [int(float(state.state))])
 
                 # Exportierte Energie
                 if export_entity:
-                    export_state = hass.states.get(export_entity)
-                    if export_state:
-                        datablock.setValues(3, 2, [int(float(export_state.state))])
+                    state = hass.states.get(export_entity)
+                    if state:
+                        datablock.setValues(3, REGISTER_AC_EXPORT, [int(float(state.state))])
+
             except Exception as e:
                 _LOGGER.error(f"Fehler beim Aktualisieren der Register: {e}")
 
