@@ -1,6 +1,8 @@
-"""Initialisiert die Fronius Smartmeter Emulator Integration."""
-from homeassistant.core import HomeAssistant
+from .modbus_server import start_server
 
-async def async_setup(hass: HomeAssistant, config: dict) -> bool:
-    """Set up Integration (wird im Initialisierungsprozess geladen)."""
+DOMAIN = "fronius_smartmeter_emulator"
+
+async def async_setup_entry(hass, entry):
+    port = entry.data.get("port", 5020)
+    hass.async_create_task(start_server(hass, port))
     return True
