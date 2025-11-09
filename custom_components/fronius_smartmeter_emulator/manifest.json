@@ -3,7 +3,7 @@
   "name": "Fronius Smart Meter Emulator",
   "version": "0.1.0",
   "codeowners": ["@Safi105"],
-  "requirements": ["pymodbus>=3.4.0"],
+  "requirements": ["pymodbus>=3.8.3"],
   "config_flow": true,
   "iot_class": "local_push"
 }
