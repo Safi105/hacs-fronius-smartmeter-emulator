@@ -1,5 +1,5 @@
 import asyncio
-from pymodbus.server.async_io import StartTcpServer
+from pymodbus.server import StartTcpServer
 from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
 from pymodbus.datastore.store import ModbusSequentialDataBlock
 from homeassistant.core import HomeAssistant
