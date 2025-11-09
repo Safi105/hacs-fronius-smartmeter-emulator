@@ -1,21 +1,18 @@
 import asyncio
+import logging
 from pymodbus.server import StartTcpServer
-from pymodbus.datastore import ModbusSlaveContext, ModbusServerContext
-from pymodbus.datastore.store import ModbusSequentialDataBlock
-from homeassistant.core import HomeAssistant
+from pymodbus.datastore import ModbusSequentialDataBlock
+from pymodbus.datastore.simulator import setup_simulator
 
-# SunSpec-kompatible Register für Fronius Smart Meter
-def create_context():
-    # Hier einfache Dummy-Werte
-    block = ModbusSequentialDataBlock(0, [0]*300)
-    store = ModbusSlaveContext(di=block, co=block, hr=block, ir=block, unit=240)
-    return ModbusServerContext(slaves=store, single=True)
+_LOGGER = logging.getLogger(__name__)
 
-async def start_server(hass: HomeAssistant, port: int = 5020):
-    context = create_context()
+async def start_modbus_server(port=5020):
+    """Startet einen Modbus-TCP-Server mit Dummy-Werten für den Fronius Smart Meter."""
+    # Beispielregister: 0 = aktuelle Leistung, 1 = importierte Energie, 2 = exportierte Energie
+    datablock = ModbusSequentialDataBlock(0, [0] * 100)
 
-    def run():
-        StartTcpServer(context, address=("0.0.0.0", port))
+    # Simulator-Store (ersetzt ModbusSlaveContext/ServerContext)
+    store = setup_simulator({0x00: datablock})
 
-    hass.loop.run_in_executor(None, run)
-    hass.components.logger.getLogger(__name__).info(f"Fronius Smart Meter Emulator läuft auf Port {port}")
+    _LOGGER.info(f"Starte Modbus TCP Server auf Port {port} …")
+    await StartTcpServer(context=store, address=("0.0.0.0", port))
