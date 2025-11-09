@@ -1,0 +1,9 @@
+{
+  "domain": "fronius_smartmeter_emulator",
+  "name": "Fronius Smartmeter Emulator",
+  "version": "0.0.1",
+  "documentation": "https://github.com/Safi105/hacs-fronius-smartmeter-emulator",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@Safi105"]
+}
