@@ -1,3 +1,5 @@
+## Work in Progress
+
 Fronius Smartmeter Emulator (HACS Integration)
 
 Dies ist das Basis-Repository für die Home Assistant Integration, um ein Fronius Smartmeter zu emulieren.
@@ -18,11 +20,6 @@ custom_components/fronius_smartmeter_emulator/
 
 - Kopiere den Ordner `custom_components/fronius_smartmeter_emulator` in dein `custom_components` Verzeichnis.
 - Kompatibel mit HACS, nach Einbindung als Custom Repository.
-
-## Entwicklung
-
-- Erweitere die Integration z.B. um weitere Sensoren oder Services.
-- Dokumentiere alle Funktionen in [`manifest.json`](custom_components/fronius_smartmeter_emulator/manifest.json) und hier im Readme.
 
 ## Links
 
