@@ -1,5 +1,6 @@
 from homeassistant.core import HomeAssistant
 from .modbus_server import start_modbus_server
+from .const import UNIT_ID
 
 DOMAIN = "fronius_smartmeter_emulator"
 
@@ -9,7 +10,6 @@ async def async_setup_entry(hass: HomeAssistant, entry):
     power_entity = config["power_entity"]
     import_entity = config.get("import_entity")
     export_entity = config.get("export_entity")
-    unit_id = config.get("modbus_unit_id", 240)
     port = config.get("modbus_port", 1502)
 
     # Start the Modbus TCP server
@@ -19,7 +19,7 @@ async def async_setup_entry(hass: HomeAssistant, entry):
             power_entity=power_entity,
             import_entity=import_entity,
             export_entity=export_entity,
-            unit_id=unit_id,
+            unit_id=UNIT_ID,
             port=port
         )
     )
